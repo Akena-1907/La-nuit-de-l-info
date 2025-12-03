@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inshit-Nutrifion - Votre boutique en ligne</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Page d'accueil */
+        .hero {
+            background: white;
+            border-radius: 10px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            object-fit: contain;
+        }
+
+        /* Catalogue */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        /* Panier */
+        .cart-items {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .quantity-btn:hover {
+            background: #5568d3;
+        }
+
+        .remove-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            background: #ee5a6f;
+        }
+
+        .cart-total {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🛒 Inshit-Nutrifion</div>
+            <ul class="nav-links">
+                <li><a href="#" data-page="home">Accueil</a></li>
+                <li><a href="#" data-page="catalogue">Catalogue</a></li>
+                <li><a href="#" data-page="cart">Panier</a></li>
+            </ul>
+            <div class="cart-icon" data-page="cart">
+                🛒
+                <span class="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+    <!-- PAGE D'ACCUEIL -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <h1>Bienvenue chez Inshit-Nutrifion</h1>
+            <p>Votre destination pour les meilleures toilettes du monde</p>
+            <button class="btn" onclick="navigateTo('catalogue')">Découvrir le catalogue</button>
+        </div>
+
+        <h2 style="text-align: center; margin: 3rem 0 2rem;">À propos du projet</h2>
+        <div class="features">
+
+            <div class="feature-card">
+                <div class="feature-icon" style="font-size:3rem;">📚</div>
+                <h3>Catalogue Produits</h3>
+                <p>Découvrez notre sélection de produits soigneusement choisis pour vous</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="font-size:3rem;">🛒</div>
+                <h3>Panier Intelligent</h3>
+                <p>Ajoutez vos articles favoris et gérez facilement vos achats avec notre système de panier</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="font-size:3rem;">💳</div>
+                <h3>Achat Simplifié</h3>
+                <p>Validez vos commandes en quelques clics avec notre processus de paiement optimisé</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="font-size:3rem;">🚀</div>
+                <h3>Navigation Fluide</h3>
+                <p>Interface moderne et responsive avec navigation dynamique entre les pages</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="font-size:3rem;">🎨</div>
+                <h3>Design Moderne</h3>
+                <p>CSS externe avec animations et effets visuels pour une expérience utilisateur optimale</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" style="font-size:3rem;">💾</div>
+                <h3>Stockage Local</h3>
+                <p>Votre panier est sauvegardé automatiquement pour ne rien perdre</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- PAGE CATALOGUE -->
+        <div id="catalogue" class="page">
+            <h1 class="page-title">Notre Catalogue</h1>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+
+        <!-- PAGE PANIER -->
+        <div id="cart" class="page">
+            <h1 class="page-title">Mon Panier</h1>
+            <div id="cartContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Base de données des produits
+const products = [
+    { id: 1, name: "Toilette Tibo Inshape", price: 499, image: "/home/mathieu/Downloads/2A2AA207-8460-49CE-84F9-A00FAB9CD7B3.jpg", description: "Tibo intégré dans les toilettes" },
+    { id: 2, name: "Toilette Tibo Inshape stickers", price: 120, image: "/home/mathieu/Downloads/8431E980-074A-44AC-8562-757F8A457BE7.jpg", description: "Stickers Tibo Inshape" },
+    { id: 3, name: "Toilette Donald Trump", price: 1859, image: "/home/mathieu/Downloads/unnamed.jpg", description: "Toilettes luxueuses Donald Trump" },
+    { id: 4, name: "Toilette Shrek", price: 1240, image: "/home/mathieu/Downloads/unnamed (1).jpg", description: "Ambiance du film Shrek" },
+    { id: 5, name: "Toilette Fontaine", price: 860, image: "/home/mathieu/Downloads/image.png", description: "Magnifique fontaine humaine" },
+    { id: 6, name: "Toilette Elon Musk", price: 2090, image: "/home/mathieu/Downloads/0B4220D5-DE8C-41DA-9C3B-93AFEFE32C01.png", description: "Toilette pour devenir riche" },
+];
+
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Navigation entre pages
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+
+            if (pageId === 'catalogue') {
+                renderProducts();
+            } else if (pageId === 'cart') {
+                renderCart();
+            }
+        }
+
+        // Gestion des clics de navigation
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo(link.dataset.page);
+            });
+        });
+
+        // Afficher les produits
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${product.name}</div>
+                        <div class="product-description">${product.description}</div>
+                        <div class="product-price">${product.price}€</div>
+                        <button class="btn" onclick="addToCart(${product.id})">
+                            Ajouter au panier
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Ajouter au panier
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            saveCart();
+            updateCartCount();
+            alert(`${product.name} ajouté au panier !`);
+        }
+
+        // Afficher le panier
+        function renderCart() {
+            const cartContent = document.getElementById('cartContent');
+
+            if (cart.length === 0) {
+                cartContent.innerHTML = `
+                    <div class="empty-cart">
+                        <h2>Votre panier est vide</h2>
+                        <p>Découvrez notre catalogue pour ajouter des produits</p>
+                        <button class="btn" onclick="navigateTo('catalogue')">Voir le catalogue</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            cartContent.innerHTML = `
+                <div class="cart-items">
+                    ${cart.map((item, index) => `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-title">
+                                    <img src="${item.image}" alt="${item.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px; margin-right: 10px; vertical-align: middle;">
+                                    ${item.name}
+                                </div>
+                                <div class="cart-item-price">${item.price}€</div>
+                            </div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" onclick="removeFromCart(${index})">Retirer</button>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="cart-total">
+                    <div class="total-row">
+                        <span>Total:</span>
+                        <span class="total-amount">${total}€</span>
+                    </div>
+                    <button class="btn" onclick="checkout()">Valider la commande</button>
+                </div>
+            `;
+        }
+
+        // Modifier la quantité
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            saveCart();
+            renderCart();
+            updateCartCount();
+        }
+
+        // Retirer du panier
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            renderCart();
+            updateCartCount();
+        }
+
+        // Valider la commande
+        function checkout() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Commande validée !\nTotal: ${total}€\n\nMerci pour votre achat !`);
+            cart = [];
+            saveCart();
+            renderCart();
+            updateCartCount();
+        }
+
+        // Sauvegarder le panier
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Mettre à jour le compteur du panier
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = count;
+        }
+
+        // Initialisation
+        renderProducts();
+        updateCartCount();
+    </script>
+</body>
+</html>"
