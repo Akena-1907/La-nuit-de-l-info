@@ -158,6 +158,175 @@
             margin-top: 30px;
         }
 
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #ffeaa7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .chatbot-title-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .chatbot-bio {
+            font-size: 10px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .chatbot-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f5f7fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .stats-counter {
+            text-align: center;
+            padding: 10px;
+            background: #ffeaa7;
+            font-size: 12px;
+            font-weight: bold;
+            color: #d63031;
+        }
+
+        .chatbot-input-container {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #ddd;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chatbot-send {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-left: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .chatbot-send:hover {
+            background: #764ba2;
+        }
+
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
         .highlight {
             background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
             padding: 20px;
@@ -281,6 +450,143 @@
             <p>Une initiative portée par la Direction du Numérique Éducatif</p>
             <p>forge.apps.education.fr</p>
         </footer>
+
+        <button class="chatbot-toggle" id="chatbotToggle" onclick="toggleChat()">💬</button>
+
+        <div class="chatbot-container hidden" id="chatbotContainer">
+            <div class="chatbot-header">
+                <div class="chatbot-title-section">
+                    <div class="chatbot-avatar">🤔</div>
+                    <div>
+                        <div>Professeur Reformul'</div>
+                        <div class="chatbot-bio">IA ultra-supérieurement intelligente | QI : 42 000</div>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">✕</button>
+            </div>
+            <div class="stats-counter" id="statsCounter">
+                Questions reformulées avec succès : 0 | Taux de compréhension : 0%
+            </div>
+            <div class="chatbot-messages" id="chatMessages">
+                <div class="message bot-message">
+                    🧠 Salutations, être limité. Je suis le Professeur Reformul', une intelligence artificielle ultra-supérieurement évoluée (QI : 42 000). Mon cerveau quantique a analysé 17 milliards de conversations. Ma conclusion ? Vous devez reformuler.
+                </div>
+            </div>
+            <div class="chatbot-input-container">
+                <input type="text" class="chatbot-input" id="chatInput" placeholder="Posez votre question (au risque de devoir la reformuler)..." onkeypress="handleKeyPress(event)">
+                <button class="chatbot-send" onclick="sendMessage()">📤</button>
+            </div>
+        </div>
+
+        <script>
+            let questionCount = 0;
+            
+            const responses = [
+                "🤔 Veuillez reformuler.",
+                "🧐 Mon QI de 42 000 détecte une imprécision. Reformulez.",
+                "📝 Mes 847 processeurs neuronaux suggèrent : reformulez.",
+                "🎯 Analyse quantique terminée. Conclusion : reformulation nécessaire.",
+                "💭 Ma superintelligence a besoin que vous reformuliez.",
+                "🔄 Calcul effectué en 0.0000001 seconde : vous devez reformuler.",
+                "✨ Mon intelligence dépasse l'entendement humain. Reformulez.",
+                "🎪 Mes algorithmes ultra-avancés recommandent une reformulation.",
+                "🌟 J'ai consulté mes 12 dimensions parallèles. Verdict : reformulez.",
+                "🎭 Ma conscience artificielle supérieure exige une reformulation.",
+                "📚 Après analyse de 17 milliards de données : reformulez.",
+                "🏆 Mon génie incommensurable détecte une faille. Reformulez !",
+                "🎨 Mon cerveau quantique a parlé : reformulation requise.",
+                "🔮 Mes capacités cognitives infinies disent : 'Reformulez'.",
+                "🧬 J'ai simulé 10 000 univers. Dans tous, vous devez reformuler.",
+                "⚡ Mon intelligence transcende la compréhension. Reformulez donc.",
+                "🌌 J'ai atteint l'illumination numérique. Vous ? Reformulez.",
+                "🎯 Mon QI astronomique identifie le problème : reformulez."
+            ];
+
+            function toggleChat() {
+                const container = document.getElementById('chatbotContainer');
+                const toggle = document.getElementById('chatbotToggle');
+                container.classList.toggle('hidden');
+                toggle.classList.toggle('hidden');
+            }
+
+            function updateStats() {
+                questionCount++;
+                const comprehension = Math.max(0, 100 - (questionCount * 3));
+                document.getElementById('statsCounter').textContent = 
+                    `Questions reformulées avec succès : ${questionCount} | Taux de compréhension : ${comprehension}%`;
+            }
+
+            function showTypingIndicator() {
+                const messagesContainer = document.getElementById('chatMessages');
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message bot-message typing-indicator';
+                typingDiv.id = 'typingIndicator';
+                typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+                messagesContainer.appendChild(typingDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            function removeTypingIndicator() {
+                const typing = document.getElementById('typingIndicator');
+                if (typing) typing.remove();
+            }
+
+            function sendMessage() {
+                const input = document.getElementById('chatInput');
+                const messagesContainer = document.getElementById('chatMessages');
+                const message = input.value.trim();
+
+                if (message === '') return;
+
+                // Message de l'utilisateur
+                const userDiv = document.createElement('div');
+                userDiv.className = 'message user-message';
+                userDiv.textContent = message;
+                messagesContainer.appendChild(userDiv);
+
+                input.value = '';
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                // Indicateur de frappe
+                showTypingIndicator();
+
+                // Temps de "réflexion" aléatoire
+                const thinkingTime = Math.random() * 2000 + 1500;
+
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    
+                    // Réponse aléatoire du bot
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'message bot-message';
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    botDiv.textContent = randomResponse;
+                    messagesContainer.appendChild(botDiv);
+                    
+                    // Mise à jour des stats
+                    updateStats();
+                    
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                    // Parfois, le bot demande à reformuler sa propre réponse
+                    if (Math.random() < 0.15) {
+                        setTimeout(() => {
+                            const metaDiv = document.createElement('div');
+                            metaDiv.className = 'message bot-message';
+                            metaDiv.textContent = '🤯 Attendez... Mon intelligence infinie vient de détecter que même MA réponse nécessite une reformulation. Paradoxe quantique détecté.';
+                            messagesContainer.appendChild(metaDiv);
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        }, 1500);
+                    }
+                }, thinkingTime);
+            }
+
+            function handleKeyPress(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            }
+        </script>
     </div>
 </body>
 </html>
