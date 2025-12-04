@@ -1,0 +1,867 @@
+import React, { useState } from 'react';
+import { Activity, Award, CheckCircle, ShoppingCart, ArrowRight, User, Target, Dumbbell, AlertTriangle, Heart, Calendar } from 'lucide-react';
+
+const SportPostureApp = () => {
+  const [step, setStep] = useState('welcome');
+  const [userProfile, setUserProfile] = useState({
+    level: '',
+    sports: [],
+    goals: [],
+    frequency: '',
+    injuries: [],
+    experience: '',
+    equipment: ''
+  });
+  const [selectedExercise, setSelectedExercise] = useState(null);
+
+  const exercises = {
+    debutant: [
+      {
+        id: 'squat',
+        name: 'Squat Classique',
+        difficulty: 'Débutant',
+        description: 'Fondamental pour renforcer jambes et fessiers en toute sécurité',
+        musclesWorked: ['Quadriceps', 'Fessiers', 'Ischio-jambiers', 'Mollets', 'Core'],
+        instructions: [
+          'Positionnez vos pieds à largeur d\'épaules, orteils légèrement vers l\'extérieur (10-15°)',
+          'Gardez la poitrine relevée et le regard droit devant vous',
+          'Contractez vos abdominaux pour protéger votre dos',
+          'Initiez le mouvement en poussant les hanches vers l\'arrière (comme pour vous asseoir)',
+          'Descendez jusqu\'à ce que vos cuisses soient parallèles au sol (90°)',
+          'Vos genoux doivent rester alignés avec vos orteils, sans dépasser',
+          'Gardez vos talons bien ancrés au sol tout au long du mouvement',
+          'Remontez en poussant fort sur vos talons et en contractant les fessiers'
+        ],
+        warnings: [
+          '⚠️ CRITIQUE : Ne laissez jamais vos genoux s\'affaisser vers l\'intérieur',
+          '⚠️ Évitez de cambrer excessivement le bas du dos',
+          '⚠️ Si vos talons décollent, réduisez l\'amplitude ou utilisez un léger support',
+          '⚠️ Respirez : inspirez en descendant, expirez en remontant'
+        ],
+        commonMistakes: [
+          'Genoux qui dépassent les orteils → Risque de blessure rotulienne',
+          'Dos rond → Danger pour les lombaires',
+          'Descente trop rapide → Perte de contrôle et tension articulaire'
+        ],
+        products: [
+          { 
+            name: 'Tapis de yoga Kimjaly 5mm', 
+            price: '12.00€', 
+            use: 'Confort et adhérence pour vos squats',
+            url: 'https://www.decathlon.fr/p/tapis-de-yoga-180-x-50-cm-epaisseur-5-mm-bleu/_/R-p-349112'
+          },
+          { 
+            name: 'Élastique musculation 15kg vert', 
+            price: '7.99€', 
+            use: 'Assistance pour apprendre le mouvement',
+            url: 'https://www.decathlon.fr/p/elastique-de-musculation-training-band-15-kg-vert/_/R-p-187031'
+          }
+        ],
+        videoTips: 'Filmez-vous de profil pour vérifier votre alignement genou-hanche-épaule',
+        sets: '3 séries de 10-12 répétitions',
+        rest: '1-2 minutes entre les séries'
+      },
+      {
+        id: 'pompe_genoux',
+        name: 'Pompes sur Genoux',
+        difficulty: 'Débutant',
+        description: 'Développez la force du haut du corps progressivement',
+        musclesWorked: ['Pectoraux', 'Triceps', 'Épaules', 'Core'],
+        instructions: [
+          'Placez-vous à genoux sur un tapis confortable',
+          'Positionnez vos mains au sol, légèrement plus larges que les épaules',
+          'Croisez vos pieds en l\'air pour stabiliser',
+          'Créez une ligne droite des genoux à la tête (pas de fesses en l\'air)',
+          'Contractez vos abdominaux et fessiers pendant tout l\'exercice',
+          'Descendez en gardant les coudes à 45° du corps (pas à 90°)',
+          'Arrêtez quand votre poitrine est à 5-10cm du sol',
+          'Remontez en poussant fort, sans verrouiller les coudes en haut'
+        ],
+        warnings: [
+          '⚠️ Ne laissez JAMAIS vos hanches s\'affaisser',
+          '⚠️ Les coudes doivent rester près du corps (pas évasés)',
+          '⚠️ Gardez la tête dans l\'alignement de la colonne',
+          '⚠️ Si douleur aux poignets, utilisez des poignées'
+        ],
+        commonMistakes: [
+          'Corps en "V inversé" → Aucun travail des pectoraux',
+          'Coudes trop écartés → Stress excessif sur les épaules',
+          'Amplitude partielle → Progression limitée'
+        ],
+        products: [
+          { 
+            name: 'Tapis fitness épais Domyos', 
+            price: '14.99€', 
+            use: 'Protection optimale des genoux',
+            url: 'https://www.decathlon.fr/tous-les-sports/yoga/tapis-de-yoga'
+          },
+          { 
+            name: 'Poignées push-up ergonomiques', 
+            price: '12.99€', 
+            use: 'Réduire la tension sur les poignets',
+            url: 'https://www.decathlon.fr/tous-les-sports/musculation-cross-training'
+          }
+        ],
+        videoTips: 'Placez un miroir sur le côté pour vérifier votre alignement',
+        sets: '3 séries de 8-10 répétitions',
+        rest: '90 secondes entre les séries'
+      },
+      {
+        id: 'planche',
+        name: 'Planche (Gainage Statique)',
+        difficulty: 'Débutant',
+        description: 'Renforcez votre ceinture abdominale en profondeur',
+        musclesWorked: ['Transverse', 'Obliques', 'Grand droit', 'Lombaires', 'Épaules'],
+        instructions: [
+          'Positionnez-vous sur les avant-bras, coudes sous les épaules',
+          'Joignez vos mains ou gardez-les parallèles',
+          'Tendez les jambes et montez sur les orteils',
+          'Créez une ligne droite parfaite : talons-fesses-épaules-tête',
+          'Contractez FORT vos abdominaux (rentrez le ventre)',
+          'Serrez les fessiers pour protéger le bas du dos',
+          'Regardez le sol, 30cm devant vos mains',
+          'Respirez normalement, ne bloquez pas votre respiration',
+          'Tenez 20-30 secondes au début, augmentez progressivement'
+        ],
+        warnings: [
+          '⚠️ ARRÊTEZ si vous sentez une douleur dans le bas du dos',
+          '⚠️ Ne montez pas les fesses (position "Pike")',
+          '⚠️ Ne laissez pas vos hanches descendre',
+          '⚠️ Privilégiez des séries courtes avec bonne technique'
+        ],
+        commonMistakes: [
+          'Fesses trop hautes → Aucun travail des abdos',
+          'Hanches qui tombent → Danger pour les lombaires',
+          'Apnée → Augmente la pression interne dangereusement'
+        ],
+        products: [
+          { 
+            name: 'Tapis yoga Kimjaly 4mm', 
+            price: '9.99€', 
+            use: 'Confort pour les avant-bras',
+            url: 'https://www.decathlon.fr/p/tapis-de-yoga-doux-epaisseur-4mm-vert-fonce/_/R-p-141487'
+          },
+          { 
+            name: 'Chronomètre sport Kalenji', 
+            price: '9.99€', 
+            use: 'Suivre votre progression temporelle',
+            url: 'https://www.decathlon.fr'
+          }
+        ],
+        videoTips: 'Demandez à quelqu\'un de placer un bâton sur votre dos pour vérifier l\'alignement',
+        sets: '3-4 séries de 20-45 secondes',
+        rest: '30-60 secondes entre les séries'
+      }
+    ],
+    intermediaire: [
+      {
+        id: 'squat_jump',
+        name: 'Squat Jump (Pliométrique)',
+        difficulty: 'Intermédiaire',
+        description: 'Développez puissance et explosivité des jambes',
+        musclesWorked: ['Quadriceps', 'Fessiers', 'Mollets', 'Core'],
+        instructions: [
+          'Échauffez-vous 10 minutes OBLIGATOIREMENT avant cet exercice',
+          'Commencez en position de squat classique',
+          'Descendez contrôlé jusqu\'à 90° (cuisses parallèles)',
+          'Explosez vers le haut de toutes vos forces',
+          'Étendez complètement jambes et hanches dans les airs',
+          'Balancez les bras vers le haut pour gagner en hauteur',
+          'Atterrissage : d\'abord avant-pied, puis talon',
+          'Amortissez immédiatement en revenant en position squat',
+          'Contrôlez la descente, ne laissez pas vos genoux claquer'
+        ],
+        warnings: [
+          '⚠️ INTERDIT si problèmes de genoux ou chevilles',
+          '⚠️ Surface plane et stable OBLIGATOIRE',
+          '⚠️ Atterrissage silencieux = bonne technique',
+          '⚠️ Commencez par 5 répétitions maximum',
+          '⚠️ 48h de repos minimum entre deux séances'
+        ],
+        commonMistakes: [
+          'Atterrissage jambes tendues → Choc traumatisant pour genoux',
+          'Genoux qui rentrent à l\'impact → Blessure ligamentaire',
+          'Enchaînement trop rapide → Fatigue = mauvaise technique = blessure'
+        ],
+        products: [
+          { 
+            name: 'Chaussures training Domyos Energy+', 
+            price: '49.99€', 
+            use: 'Amorti et stabilité pour les sauts',
+            url: 'https://www.decathlon.fr/p/chaussures-de-fitness-et-training-maintien-et-stabilite-homme-energy-gris/_/R-p-372134'
+          },
+          { 
+            name: 'Genouillères support compression', 
+            price: '15.99€', 
+            use: 'Protection articulaire',
+            url: 'https://www.decathlon.fr'
+          }
+        ],
+        videoTips: 'Comptez 3 secondes d\'atterrissage contrôlé avant le prochain saut',
+        sets: '4 séries de 6-8 répétitions',
+        rest: '2-3 minutes entre les séries (récupération complète)'
+      },
+      {
+        id: 'burpee',
+        name: 'Burpee Complet',
+        difficulty: 'Intermédiaire',
+        description: 'Exercice total corps : cardio + force',
+        musclesWorked: ['Corps entier', 'Cardio', 'Endurance musculaire'],
+        instructions: [
+          'Debout, pieds largeur hanches',
+          'Accroupissez-vous et posez les mains au sol',
+          'Lancez les pieds en arrière en position planche (pas de chute)',
+          'Maintenez la planche une seconde, corps aligné',
+          'Faites UNE pompe complète (optionnel pour débutants)',
+          'Ramenez les pieds vers les mains d\'un bond contrôlé',
+          'Explosez vers le haut en sautant',
+          'Tapez dans vos mains au-dessus de la tête',
+          'Atterrissez en douceur et enchaînez'
+        ],
+        warnings: [
+          '⚠️ TECHNIQUE avant vitesse, toujours',
+          '⚠️ Gardez le dos droit pendant la phase planche',
+          '⚠️ Ne vous écrasez pas au sol',
+          '⚠️ Adaptez le rythme à votre cardio',
+          '⚠️ Version modifiée OK : sans pompe et sans saut'
+        ],
+        commonMistakes: [
+          'Phase planche bâclée → Zéro bénéfice et risque lombaire',
+          'Vitesse excessive → Technique catastrophique',
+          'Apnée → Étourdissement et malaise'
+        ],
+        products: [
+          { 
+            name: 'Tapis fitness XL Domyos', 
+            price: '24.99€', 
+            use: 'Espace et protection maximale',
+            url: 'https://www.decathlon.fr/tous-les-sports/yoga/tapis-de-yoga'
+          },
+          { 
+            name: 'Gourde isotherme 750ml', 
+            price: '12.99€', 
+            use: 'Hydratation essentielle',
+            url: 'https://www.decathlon.fr'
+          }
+        ],
+        videoTips: 'Filmez-vous : chaque phase doit durer au moins 1 seconde',
+        sets: '3-4 séries de 8-12 répétitions',
+        rest: '90-120 secondes entre les séries'
+      }
+    ],
+    avance: [
+      {
+        id: 'pistol_squat',
+        name: 'Pistol Squat (Squat Unipodal)',
+        difficulty: 'Avancé',
+        description: 'Test ultime de force, équilibre et mobilité',
+        musclesWorked: ['Quadriceps', 'Fessiers', 'Stabilisateurs', 'Core'],
+        instructions: [
+          'Debout sur une jambe, l\'autre tendue devant vous',
+          'Tendez les bras devant pour l\'équilibre',
+          'Contractez FORT votre core',
+          'Initiez la descente en contrôlant chaque centimètre',
+          'La jambe levée reste parfaitement tendue devant',
+          'Descendez le plus bas possible (idéal : fesse sur mollet)',
+          'Le genou de la jambe d\'appui reste aligné avec l\'orteil',
+          'Remontez en poussant fort sur le talon, sans élan',
+          'Gardez le dos le plus droit possible'
+        ],
+        warnings: [
+          '⚠️ Nécessite 6+ mois d\'entraînement régulier',
+          '⚠️ Mobilité cheville + hanche obligatoire',
+          '⚠️ Commencez avec support (TRX, chaise)',
+          '⚠️ Progression : amplitude partielle → complète',
+          '⚠️ STOP si douleur genou ou perte d\'équilibre'
+        ],
+        commonMistakes: [
+          'Jambe levée qui plie → Compensation, risque chute',
+          'Genou qui part en valgus → Blessure ligamentaire',
+          'Talon qui décolle → Impossible de remonter'
+        ],
+        products: [
+          { 
+            name: 'TRX Suspension Trainer', 
+            price: '89.99€', 
+            use: 'Assistance progressive indispensable',
+            url: 'https://www.decathlon.fr'
+          },
+          { 
+            name: 'Bloc yoga Domyos', 
+            price: '9.99€', 
+            use: 'Réduire l\'amplitude au début',
+            url: 'https://www.decathlon.fr/tous-les-sports/yoga'
+          }
+        ],
+        videoTips: 'Entraînez d\'abord les squats bulgares pendant 2-3 mois',
+        sets: '3-4 séries de 3-6 répétitions par jambe',
+        rest: '2-3 minutes entre les séries'
+      },
+      {
+        id: 'handstand_pushup',
+        name: 'Pompes en Équilibre (Handstand Push-Up)',
+        difficulty: 'Avancé',
+        description: 'Force maximale des épaules et équilibre',
+        musclesWorked: ['Épaules', 'Triceps', 'Trapèzes', 'Core'],
+        instructions: [
+          'PRÉREQUIS : tenir équilibre mains 60 secondes',
+          'Positionnez-vous en équilibre contre un mur',
+          'Mains largeur épaules, doigts légèrement vers l\'extérieur',
+          'Corps parfaitement gainé, fessiers contractés',
+          'Descendez en pliant les coudes (contrôle total)',
+          'Tête touche le sol entre les mains',
+          'Remontez en poussant fort, sans donner de coups',
+          'Version débutant : utilisez des parallettes pour plus d\'amplitude'
+        ],
+        warnings: [
+          '⚠️ Exercice EXPERT - années d\'entraînement requis',
+          '⚠️ Force épaules + stabilité core absolues',
+          '⚠️ Risque chute = blessure grave',
+          '⚠️ Progression : Pike push-ups → Wall walks → Handstand hold',
+          '⚠️ Matelas de gym OBLIGATOIRE'
+        ],
+        commonMistakes: [
+          'Équilibre instable → Chute sur la tête',
+          'Descente incontrôlée → Écrasement cervicales',
+          'Cambrure excessive → Stress lombaire dangereux'
+        ],
+        products: [
+          { 
+            name: 'Parallettes musculation', 
+            price: '34.99€', 
+            use: 'Amplitude et protection poignets',
+            url: 'https://www.decathlon.fr/tous-les-sports/musculation-cross-training'
+          },
+          { 
+            name: 'Matelas gym 10cm', 
+            price: '89.99€', 
+            use: 'Sécurité en cas de chute',
+            url: 'https://www.decathlon.fr'
+          }
+        ],
+        videoTips: 'Progressez avec Pike push-ups pendant 6-12 mois minimum',
+        sets: '4-5 séries de 2-5 répétitions',
+        rest: '3-5 minutes entre les séries'
+      }
+    ]
+  };
+
+  const renderWelcome = () => (
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full">
+        <div className="text-center mb-8">
+          <Activity className="w-20 h-20 mx-auto mb-4 text-purple-600" />
+          <h1 className="text-4xl font-bold text-gray-800 mb-3">Sport Posture Pro</h1>
+          <p className="text-xl text-gray-600 mb-2">Prévenez les blessures, maîtrisez chaque mouvement</p>
+          <p className="text-sm text-gray-500">Programme personnalisé basé sur votre profil</p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="text-center p-4 bg-blue-50 rounded-lg">
+            <User className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+            <h3 className="font-semibold text-gray-800">Profil Détaillé</h3>
+            <p className="text-sm text-gray-600">Adapté à VOS besoins</p>
+          </div>
+          <div className="text-center p-4 bg-purple-50 rounded-lg">
+            <Target className="w-8 h-8 mx-auto mb-2 text-purple-600" />
+            <h3 className="font-semibold text-gray-800">Instructions Pro</h3>
+            <p className="text-sm text-gray-600">Technique irréprochable</p>
+          </div>
+          <div className="text-center p-4 bg-pink-50 rounded-lg">
+            <Dumbbell className="w-8 h-8 mx-auto mb-2 text-pink-600" />
+            <h3 className="font-semibold text-gray-800">Équipement Decathlon</h3>
+            <p className="text-sm text-gray-600">Liens directs actifs</p>
+          </div>
+        </div>
+
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+          <div className="flex">
+            <AlertTriangle className="w-5 h-5 text-yellow-600 mr-3 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-yellow-700">
+              <strong>Important :</strong> Une mauvaise technique = 24% de risque de blessure en plus. 
+              Suivez nos instructions à la lettre !
+            </p>
+          </div>
+        </div>
+        
+        <button
+          onClick={() => setStep('questionnaire')}
+          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all flex items-center justify-center gap-2"
+        >
+          Démarrer mon évaluation complète
+          <ArrowRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderQuestionnaire = () => (
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-3">
+            <User className="w-8 h-8 text-purple-600" />
+            Profil Sportif Personnalisé
+          </h2>
+          <p className="text-gray-600 mb-6">Répondez précisément pour des recommandations adaptées</p>
+          
+          <div className="space-y-6">
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                1. Quel est votre niveau d'expérience en renforcement musculaire ?
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {[
+                  { id: 'debutant', label: 'Débutant', desc: 'Moins de 6 mois de pratique' },
+                  { id: 'intermediaire', label: 'Intermédiaire', desc: '6 mois à 2 ans réguliers' },
+                  { id: 'avance', label: 'Avancé', desc: '+2 ans d\'entraînement constant' }
+                ].map(level => (
+                  <button
+                    key={level.id}
+                    onClick={() => setUserProfile({...userProfile, level: level.id})}
+                    className={`p-4 rounded-lg border-2 transition-all text-left ${
+                      userProfile.level === level.id
+                        ? 'border-purple-600 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-300'
+                    }`}
+                  >
+                    <div className="font-semibold text-gray-800">{level.label}</div>
+                    <div className="text-sm text-gray-600">{level.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                2. Quelles activités pratiquez-vous actuellement ?
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {['Musculation', 'CrossFit', 'Running', 'Yoga/Pilates', 'Sports collectifs', 'Natation', 'Cyclisme', 'Aucune'].map(sport => (
+                  <button
+                    key={sport}
+                    onClick={() => {
+                      const sports = userProfile.sports.includes(sport)
+                        ? userProfile.sports.filter(s => s !== sport)
+                        : [...userProfile.sports, sport];
+                      setUserProfile({...userProfile, sports});
+                    }}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      userProfile.sports.includes(sport)
+                        ? 'border-purple-600 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-300'
+                    }`}
+                  >
+                    <span className="text-sm font-medium">{sport}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                3. Vos objectifs principaux (3 maximum)
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  'Prendre de la masse musculaire',
+                  'Améliorer ma condition physique',
+                  'Corriger ma posture',
+                  'Prévenir les blessures',
+                  'Rééducation post-blessure',
+                  'Performance sportive'
+                ].map(goal => (
+                  <button
+                    key={goal}
+                    onClick={() => {
+                      const goals = userProfile.goals.includes(goal)
+                        ? userProfile.goals.filter(g => g !== goal)
+                        : userProfile.goals.length < 3 
+                          ? [...userProfile.goals, goal]
+                          : userProfile.goals;
+                      setUserProfile({...userProfile, goals});
+                    }}
+                    disabled={!userProfile.goals.includes(goal) && userProfile.goals.length >= 3}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      userProfile.goals.includes(goal)
+                        ? 'border-purple-600 bg-purple-50'
+                        : userProfile.goals.length >= 3
+                        ? 'border-gray-200 bg-gray-100 cursor-not-allowed'
+                        : 'border-gray-200 hover:border-purple-300'
+                    }`}
+                  >
+                    <span className="text-sm font-medium">{goal}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="text-sm text-gray-500 mt-2">{userProfile.goals.length}/3 objectifs sélectionnés</p>
+            </div>
+
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                4. Fréquence d'entraînement hebdomadaire
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {[
+                  { id: '1-2', label: '1-2x/sem', desc: 'Débutant' },
+                  { id: '3-4', label: '3-4x/sem', desc: 'Régulier' },
+                  { id: '5-6', label: '5-6x/sem', desc: 'Assidu' },
+                  { id: 'quotidien', label: 'Quotidien', desc: 'Athlète' }
+                ].map(freq => (
+                  <button
+                    key={freq.id}
+                    onClick={() => setUserProfile({...userProfile, frequency: freq.id})}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      userProfile.frequency === freq.id
+                        ? 'border-purple-600 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-300'
+                    }`}
+                  >
+                    <div className="font-semibold text-sm">{freq.label}</div>
+                    <div className="text-xs text-gray-600">{freq.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                <Heart className="inline w-5 h-5 text-red-500 mr-2" />
+                5. Zones sensibles ou blessures actuelles/passées
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {['Genoux', 'Dos (lombaires)', 'Épaules', 'Chevilles', 'Poignets', 'Coudes', 'Hanches', 'Aucune'].map(injury => (
+                  <button
+                    key={injury}
+                    onClick={() => {
+                      const injuries = userProfile.injuries.includes(injury)
+                        ? userProfile.injuries.filter(i => i !== injury)
+                        : [...userProfile.injuries, injury];
+                      setUserProfile({...userProfile, injuries});
+                    }}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      userProfile.injuries.includes(injury)
+                        ? 'border-red-600 bg-red-50'
+                        : 'border-gray-200 hover:border-red-300'
+                    }`}
+                  >
+                    <span className="text-sm font-medium">{injury}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                6. Avez-vous accès à du matériel ?
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  { id: 'aucun', label: 'Aucun équipement', desc: 'Poids du corps uniquement' },
+                  { id: 'basique', label: 'Équipement basique', desc: 'Tapis, élastiques, haltères légers' },
+                  { id: 'complet', label: 'Salle complète', desc: 'Accès à une salle de sport' },
+                  { id: 'home_gym', label: 'Home gym', desc: 'Rack, barres, banc' }
+                ].map(equip => (
+                  <button
+                    key={equip.id}
+                    onClick={() => setUserProfile({...userProfile, equipment: equip.id})}
+                    className={`p-3 rounded-lg border-2 transition-all text-left ${
+                      userProfile.equipment === equip.id
+                        ? 'border-purple-600 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-300'
+                    }`}
+                  >
+                    <div className="font-semibold text-sm">{equip.label}</div>
+                    <div className="text-xs text-gray-600">{equip.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-lg font-semibold text-gray-700 mb-3">
+                7. Depuis combien de temps pratiquez-vous régulièrement ?
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {[
+                  { id: 'nouveau', label: 'Je débute', desc: '0-3 mois' },
+                  { id: 'recent', label: 'Récent', desc: '3-12 mois' },
+                  { id: 'confirme', label: 'Confirmé', desc: '1-3 ans' },
+                  { id: 'expert', label: 'Expert', desc: '+3 ans' }
+                ].map(exp => (
+                  <button
+                    key={exp.id}
+                    onClick={() => setUserProfile({...userProfile, experience: exp.id})}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      userProfile.experience === exp.id
+                        ? 'border-purple-600 bg-purple-50'
+                        : 'border-gray-200 hover:border-purple-300'
+                    }`}
+                  >
+                    <div className="font-semibold text-sm">{exp.label}</div>
+                    <div className="text-xs text-gray-600">{exp.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => userProfile.level && userProfile.frequency && userProfile.equipment && setStep('exercises')}
+            disabled={!userProfile.level || !userProfile.frequency || !userProfile.equipment}
+            className={`w-full mt-8 py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2 ${
+              userProfile.level && userProfile.frequency && userProfile.equipment
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            Générer mon programme personnalisé
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderExercises = () => {
+    const availableExercises = exercises[userProfile.level] || [];
+    
+    return (
+      <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
+                  <Award className="w-8 h-8 text-purple-600" />
+                  Programme Niveau {userProfile.level.charAt(0).toUpperCase() + userProfile.level.slice(1)}
+                </h2>
+                <p className="text-gray-600 mt-2">
+                  {availableExercises.length} exercices sélectionnés • Fréquence : {userProfile.frequency}
+                </p>
+              </div>
+              <button
+                onClick={() => setStep('questionnaire')}
+                className="text-purple-600 hover:text-purple-700 font-semibold"
+              >
+                ← Modifier mon profil
+              </button>
+            </div>
+
+            {userProfile.injuries.length > 0 && !userProfile.injuries.includes('Aucune') && (
+              <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                <div className="flex">
+                  <AlertTriangle className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-red-800 mb-1">⚠️ Zones sensibles détectées</p>
+                    <p className="text-sm text-red-700">
+                      Vous avez signalé : <strong>{userProfile.injuries.join(', ')}</strong>. 
+                      Les exercices sont adaptés mais restez à l'écoute de votre corps. 
+                      Consultez un professionnel si la douleur persiste ou s'intensifie.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {userProfile.goals.includes('Prévenir les blessures') && (
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                <div className="flex">
+                  <CheckCircle className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-blue-800 mb-1">🎯 Objectif prévention activé</p>
+                    <p className="text-sm text-blue-700">
+                      Chaque exercice inclut des <strong>warnings détaillés</strong> et des <strong>erreurs communes</strong> à éviter. 
+                      Prenez le temps de lire TOUTES les instructions.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {availableExercises.map(exercise => (
+              <div
+                key={exercise.id}
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-1"
+                onClick={() => setSelectedExercise(exercise)}
+              >
+                <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-white">
+                  <h3 className="text-2xl font-bold mb-2">{exercise.name}</h3>
+                  <p className="text-purple-100 text-sm">{exercise.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {exercise.musclesWorked.slice(0, 3).map((muscle, idx) => (
+                      <span key={idx} className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded text-xs">
+                        {muscle}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-semibold">
+                      {exercise.difficulty}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      <Calendar className="inline w-4 h-4 mr-1" />
+                      {exercise.sets}
+                    </div>
+                  </div>
+                  <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition-all flex items-center justify-center gap-2">
+                    Instructions complètes
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderExerciseDetail = () => {
+    if (!selectedExercise) return null;
+
+    return (
+      <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="max-w-4xl mx-auto">
+          <button
+            onClick={() => setSelectedExercise(null)}
+            className="mb-6 text-purple-600 hover:text-purple-700 font-semibold flex items-center gap-2"
+          >
+            ← Retour aux exercices
+          </button>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-8 text-white">
+              <h2 className="text-4xl font-bold mb-3">{selectedExercise.name}</h2>
+              <p className="text-xl text-purple-100 mb-4">{selectedExercise.description}</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {selectedExercise.musclesWorked.map((muscle, idx) => (
+                  <span key={idx} className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm">
+                    💪 {muscle}
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-4 flex-wrap">
+                <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                  <span className="font-semibold">{selectedExercise.difficulty}</span>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                  <span className="font-semibold">{selectedExercise.sets}</span>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                  <span className="font-semibold">Repos: {selectedExercise.rest}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-8">
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <CheckCircle className="w-6 h-6 text-green-600" />
+                  Technique Étape par Étape
+                </h3>
+                <div className="space-y-4">
+                  {selectedExercise.instructions.map((instruction, index) => (
+                    <div key={index} className="flex gap-4 items-start bg-gray-50 p-4 rounded-lg">
+                      <div className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
+                        {index + 1}
+                      </div>
+                      <p className="text-gray-700 text-base pt-1">{instruction}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-8 bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg">
+                <h3 className="text-xl font-bold text-red-800 mb-3 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5" />
+                  CRITIQUES - Évitez les Blessures !
+                </h3>
+                <div className="space-y-2">
+                  {selectedExercise.warnings.map((warning, index) => (
+                    <p key={index} className="text-red-700 font-medium">{warning}</p>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-8 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg">
+                <h3 className="text-xl font-bold text-yellow-800 mb-3">
+                  🚫 Erreurs Fréquentes à Corriger
+                </h3>
+                <div className="space-y-2">
+                  {selectedExercise.commonMistakes.map((mistake, index) => (
+                    <p key={index} className="text-yellow-700">• {mistake}</p>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl mb-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <ShoppingCart className="w-6 h-6 text-blue-600" />
+                  Équipement Recommandé Decathlon
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {selectedExercise.products.map((product, index) => (
+                    <div key={index} className="bg-white p-4 rounded-lg shadow">
+                      <h4 className="font-bold text-gray-800 mb-2">{product.name}</h4>
+                      <p className="text-2xl font-bold text-purple-600 mb-2">{product.price}</p>
+                      <p className="text-sm text-gray-600 mb-3">
+                        <strong>Utilité :</strong> {product.use}
+                      </p>
+                      <a
+                        href={product.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-all text-center"
+                      >
+                        Acheter sur Decathlon.fr →
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-lg mb-8">
+                <h3 className="text-xl font-bold text-green-800 mb-2 flex items-center gap-2">
+                  <Target className="w-5 h-5" />
+                  Conseil du Coach Pro
+                </h3>
+                <p className="text-green-700 mb-2">
+                  <strong>Astuce vidéo :</strong> {selectedExercise.videoTips}
+                </p>
+                <p className="text-green-700 text-sm">
+                  💡 La qualité du mouvement est 10x plus importante que la quantité. 
+                  Maîtrisez la technique avant d'augmenter l'intensité !
+                </p>
+              </div>
+
+              {userProfile.injuries.length > 0 && !userProfile.injuries.includes('Aucune') && (
+                <div className="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-r-lg">
+                  <h3 className="text-xl font-bold text-orange-800 mb-2">
+                    ⚕️ Adaptation à Votre Profil
+                  </h3>
+                  <p className="text-orange-700">
+                    Avec vos zones sensibles ({userProfile.injuries.join(', ')}), commencez par 
+                    <strong> 50% de l'amplitude et du volume</strong> recommandés. Augmentez progressivement 
+                    sur 4-6 semaines si aucune douleur n'apparaît.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (selectedExercise) return renderExerciseDetail();
+  if (step === 'welcome') return renderWelcome();
+  if (step === 'questionnaire') return renderQuestionnaire();
+  if (step === 'exercises') return renderExercises();
+};
+
+export default SportPostureApp;
