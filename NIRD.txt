@@ -1,0 +1,27 @@
+[Identification]
+Nom Complet : Numérique Inclusif, Responsable et Durable (NIRD)
+Institution : Ministère de l'Éducation Nationale (Direction du Numérique Éducatif - DNE)
+Origine du Projet : Lycée Carnot de Bruay-la-Buissière (Académie de Lille)
+Plateforme de Référence : Forge des Communs Numériques Éducatifs (forge.apps.education.fr)
+Statut : Initiative de terrain (démarrée sans moyens dédiés ni reconnaissance officielle initiale)
+
+[Dates Clés]
+Période de Formalisation : 2023-2024 (Début de la structuration et de l'expérimentation nationale).
+Actualité Récente : Activement promue en septembre/novembre 2025 comme solution face à l'obsolescence et à la fin du support de Windows 10.
+
+[Objectifs et Piliers]
+Objectif Principal : Transformer les usages numériques pour les rendre plus éthiques, durables et souverains.
+Pilier 1 (Inclusif) : Lutter contre la fracture numérique (accès équitable aux outils via le reconditionnement).
+Pilier 2 (Responsable) : Souveraineté numérique, éthique, usage raisonné et formation de l'élève citoyen.
+Pilier 3 (Durable) : Écocitoyenneté, sobriété, et allongement de la durée de vie du matériel.
+
+[Actions et Outils]
+Action Principale : Reconditionnement de matériel informatique (avec l'implication des élèves).
+Technologie Clé : Utilisation massive des Logiciels Libres et de GNU/Linux.
+Ressources Fournies : Boîte à outils (conventions, courriers types), outils de sensibilisation (ex. : conte Ada et Zangemann).
+Déploiement : Structuré en 3 jalons (Mobilisation, Expérimentation, Intégration).
+
+[Partenariats et Cadre]
+Partenariats Locaux : Collectivités territoriales et associations du Logiciel Libre.
+Soutien Professionnel : Soutien officiel du CNLL (Conseil National du Logiciel Libre).
+Alignement Officiel : Forte complémentarité avec le Label E3D (Développement Durable) et les directives d'Éduscol.
