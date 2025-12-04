@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantom's Project - Présentation NIRD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #764ba2;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #764ba2;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .pillar {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #e17055;
+        }
+
+        .pillar-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #d63031;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 3px solid #764ba2;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #764ba2;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fantom's Project</h1>
+            <p class="subtitle">Présentation NIRD</p>
+            <p style="margin-top: 15px; font-size: 1.1em; color: #764ba2;">Numérique Inclusif, Responsable et Durable</p>
+        </header>
+
+        <div class="section">
+            <h2>🏫 Identification</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Institution</div>
+                    <div>Ministère de l'Éducation Nationale (DNE)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Origine</div>
+                    <div>Lycée Carnot de Bruay-la-Buissière (Académie de Lille)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Plateforme</div>
+                    <div>Forge des Communs Numériques Éducatifs</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Statut</div>
+                    <div>Initiative de terrain devenue nationale</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📅 Dates Clés</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>2023-2024</strong> : Période de formalisation et structuration du projet
+                </div>
+                <div class="timeline-item">
+                    <strong>Septembre/Novembre 2025</strong> : Promotion active comme solution face à l'obsolescence de Windows 10
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Objectifs et Piliers</h2>
+            <div class="highlight">
+                <strong>Objectif Principal :</strong> Transformer les usages numériques pour les rendre plus éthiques, durables et souverains.
+            </div>
+
+            <div class="pillar">
+                <div class="pillar-title">🤝 Pilier 1 : INCLUSIF</div>
+                Lutter contre la fracture numérique en garantissant un accès équitable aux outils via le reconditionnement.
+            </div>
+
+            <div class="pillar">
+                <div class="pillar-title">🛡️ Pilier 2 : RESPONSABLE</div>
+                Souveraineté numérique, éthique, usage raisonné et formation de l'élève citoyen.
+            </div>
+
+            <div class="pillar">
+                <div class="pillar-title">🌱 Pilier 3 : DURABLE</div>
+                Écocitoyenneté, sobriété, et allongement de la durée de vie du matériel.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ Actions et Outils</h2>
+            <h3>Action Principale</h3>
+            <p>Reconditionnement de matériel informatique avec l'implication active des élèves</p>
+
+            <h3>Technologie Clé</h3>
+            <p>Utilisation massive des <span class="badge">Logiciels Libres</span> <span class="badge">GNU/Linux</span></p>
+
+            <h3>Ressources Fournies</h3>
+            <ul>
+                <li>Boîte à outils (conventions, courriers types)</li>
+                <li>Outils de sensibilisation (conte Ada et Zangemann)</li>
+                <li>Guides de déploiement</li>
+            </ul>
+
+            <h3>Déploiement en 3 Jalons</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">1. Mobilisation</div>
+                    Sensibilisation et formation
+                </div>
+                <div class="info-item">
+                    <div class="info-label">2. Expérimentation</div>
+                    Mise en œuvre pilote
+                </div>
+                <div class="info-item">
+                    <div class="info-label">3. Intégration</div>
+                    Généralisation
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🤝 Partenariats et Cadre</h2>
+            <h3>Partenaires</h3>
+            <ul>
+                <li><strong>Locaux :</strong> Collectivités territoriales et associations du Logiciel Libre</li>
+                <li><strong>Soutien :</strong> Conseil National du Logiciel Libre (CNLL)</li>
+            </ul>
+
+            <h3>Alignement Officiel</h3>
+            <ul>
+                <li>Forte complémentarité avec le Label E3D (Développement Durable)</li>
+                <li>Conformité avec les directives d'Éduscol</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Une initiative portée par la Direction du Numérique Éducatif</p>
+            <p>forge.apps.education.fr</p>
+        </footer>
+    </div>
+</body>
+</html>
